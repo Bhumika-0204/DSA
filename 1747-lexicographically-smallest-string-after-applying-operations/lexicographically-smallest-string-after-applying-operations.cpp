@@ -10,10 +10,9 @@ public:
         while (!q.empty()) {
             string cur = q.front();
             q.pop();
-            // update minimum
+
             if (cur < ans) ans = cur;
-            
-            // Operation 1: Add to odd indices
+
             string t1 = cur;
             for (int i = 1; i < t1.size(); i += 2) {
                 int digit = (t1[i] - '0' + a) % 10;
@@ -24,7 +23,6 @@ public:
                 q.push(t1);
             }
             
-            // Operation 2: Rotate by b to the right
             string t2 = cur.substr(cur.size() - b) + cur.substr(0, cur.size() - b);
             if (!seen.count(t2)) {
                 seen.insert(t2);
