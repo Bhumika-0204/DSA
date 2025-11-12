@@ -15,7 +15,7 @@ public:
             return;
         }
         combin.push_back(arr[idx]);
-        getAllCombinations(arr,idx+1,tar-arr[idx],ans,combin);
+        // getAllCombinations(arr,idx+1,tar-arr[idx],ans,combin);
         getAllCombinations(arr,idx,tar-arr[idx],ans,combin);
         combin.pop_back();
         getAllCombinations(arr,idx+1,tar,ans,combin);
