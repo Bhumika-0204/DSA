@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        stack<TreeNode*> st;
+
+        for (int x : nums) {
+            TreeNode* curr = new TreeNode(x);
+
+            // Pop smaller elements
+            while (!st.empty() && st.top()->val < x) {
+                curr->left = st.top();
+                st.pop();
+            }
+
+            // Attach as right child if stack not empty
+            if (!st.empty()) {
+                st.top()->right = curr;
+            }
+
+            st.push(curr);
+        }
+
+        // Bottom of stack is root
+        while (st.size() > 1) st.pop();
+        return st.top();
+    }
+};
