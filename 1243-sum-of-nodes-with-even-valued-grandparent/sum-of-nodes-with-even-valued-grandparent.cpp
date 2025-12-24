@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int ans = 0;
+
+    void dfs(TreeNode* node, TreeNode* parent, TreeNode* grandparent) {
+        if (node == nullptr) return;
+
+        if (grandparent != nullptr && grandparent->val % 2 == 0) {
+            ans += node->val;
+        }
+
+        dfs(node->left, node, parent);
+        dfs(node->right, node, parent);
+    }
+
+    int sumEvenGrandparent(TreeNode* root) {
+        dfs(root, nullptr, nullptr);
+        return ans;
+    }
+};
