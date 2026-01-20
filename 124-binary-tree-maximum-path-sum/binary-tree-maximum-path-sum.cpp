@@ -11,27 +11,16 @@
  */
 class Solution {
 public:
-    int maxSum = INT_MIN;
-
-    int dfs(TreeNode* root) {
-        if (root == NULL) return 0;
-
-        // Max gain from left & right (ignore negative paths)
-        int leftGain = max(0, dfs(root->left));
-        int rightGain = max(0, dfs(root->right));
-
-        // Path passing through current node
-        int currPath = root->val + leftGain + rightGain;
-
-        // Update global maximum
-        maxSum = max(maxSum, currPath);
-
-        // Return max gain to parent
-        return root->val + max(leftGain, rightGain);
+    int helper(TreeNode*root,int &maxsum){
+        if(root==NULL) return 0;
+        int left=max(0,helper(root->left,maxsum));
+        int right=max(0,helper(root->right,maxsum));
+        maxsum=max(maxsum,root->val+left+right);
+        return max(left,right) +root->val;
     }
-
     int maxPathSum(TreeNode* root) {
-        dfs(root);
-        return maxSum;
+        int maxsum=INT_MIN;
+        helper(root,maxsum);
+        return maxsum;
     }
 };
