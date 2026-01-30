@@ -1,12 +1,12 @@
 class Solution {
 public:
-    int n, m;
+    int n, m;   // ✅ declared at class level
 
     void dfs(int i, int j, vector<vector<char>>& grid) {
         if (i < 0 || j < 0 || i >= n || j >= m) return;
         if (grid[i][j] == '0') return;
 
-        grid[i][j] = '0';   
+        grid[i][j] = '0';
 
         dfs(i + 1, j, grid);
         dfs(i - 1, j, grid);
