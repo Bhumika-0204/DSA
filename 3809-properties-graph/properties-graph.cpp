@@ -21,7 +21,7 @@ public:
         for (int x : b) {
             if (freq[x] == 1) {
                 cnt++;
-                freq[x] = 2; // ensure distinct counting
+                freq[x] = 2; 
             }
         }
         return cnt;
