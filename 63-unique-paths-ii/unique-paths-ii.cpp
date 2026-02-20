@@ -3,12 +3,16 @@ public:
     int m,n;
     vector<vector<int>> grid,dp;
         int f(int i,int j){
+
+            //(for index out of bound)
             if(i>=n ||j>=m) return 0;
 
 
+
+            //for(obstacle)
             if(grid[i][j]==1) return 0;
 
-
+            //(for destination)
             if(i==n-1 &&j==m-1) return 1;
 
             if(dp[i][j]!=-1) return dp[i][j];
