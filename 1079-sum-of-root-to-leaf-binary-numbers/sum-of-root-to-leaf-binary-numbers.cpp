@@ -11,16 +11,14 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, int curr) {
-        if (root == NULL) return 0;
+    int dfs(TreeNode*root ,int curr){
+        if(root==NULL) return 0;
+        curr=(curr<<1) | root->val;
 
-        curr = (curr << 1) | root->val;
-
-        if (root->left == NULL && root->right == NULL)
+        if(root->left==NULL &&root->right==NULL){
             return curr;
-
-        return dfs(root->left, curr) +
-               dfs(root->right, curr);
+        }
+        return dfs(root->left,curr) +dfs(root->right,curr);
     }
 
     int sumRootToLeaf(TreeNode* root) {
