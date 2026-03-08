@@ -14,7 +14,7 @@ public:
     TreeNode* prev=NULL;
     bool flag=true;
     void inorder(TreeNode*root){
-        if(root==NULL) return;
+        if(root==NULL || flag==false) return;
         inorder(root->left);
         if(prev!=NULL){
             if(root->val <= prev->val){
