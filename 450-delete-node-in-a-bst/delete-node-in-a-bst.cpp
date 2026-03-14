@@ -11,45 +11,48 @@
  */
 class Solution {
 public:
-    TreeNode* getMin(TreeNode* node) {
-        if (node == NULL) return NULL;
-        while (node->left != NULL)
-            node = node->left;
-        return node;
+    TreeNode* iop(TreeNode*root){
+        TreeNode*pred=root->left;
+        while(pred->right){
+            pred=pred->right;
+        }
+        return pred;
     }
-
+    TreeNode* ios(TreeNode*root){
+        TreeNode*succ=root->right;
+        while(succ->left){
+            succ=succ->left;
+        }
+        return succ;
+    }
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if (root == NULL)
-            return NULL;
-
-        if (key < root->val) {
-            root->left = deleteNode(root->left, key);
-        }
-        else if (key > root->val) {
-            root->right = deleteNode(root->right, key);
-        }
-        else {
-            // Node to delete
-            if (root->left == NULL && root->right == NULL) {
-                delete root;
+        if(root==NULL) return NULL;
+        if(root->val==key){
+             //case1-koi child nhi h
+            if(root->left==NULL &&root->right==NULL){
                 return NULL;
             }
-
-            if (root->left == NULL) {
-                TreeNode* temp = root->right;
-                delete root;
-                return temp;
+            //case2-agr ek child hai
+            if(root->left==NULL || root->right==NULL){
+                if(root->left!=NULL) return root->left;
+                else return root->right;
             }
-
-            if (root->right == NULL) {
-                TreeNode* temp = root->left;
-                delete root;
-                return temp;
+            //case3-2child node
+            if(root->left!=NULL && root->right!=NULL){
+                //replate krdo root ko inorder predecessor/sucessor;
+                //replace krne k baad delete the pred/succ
+                TreeNode*pred=iop(root);
+                root->val=pred->val;
+                root->left=deleteNode(root->left,pred->val);
             }
-
-            TreeNode* successor = getMin(root->right);
-            root->val = successor->val;
-            root->right = deleteNode(root->right, successor->val);
+        }
+        else if(root->val>key){
+            //left m jao
+            root->left=deleteNode(root->left,key);
+        }
+        else{
+            //root->val<key :right m jao
+            root->right=deleteNode(root->right,key);
         }
         return root;
     }
