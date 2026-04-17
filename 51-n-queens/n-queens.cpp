@@ -1,51 +1,38 @@
 class Solution {
 public:
-        bool isSafe(vector<string>&board,int row,int col,int n){
-        //horizontal
-        for(int j=0;j<n;j++){
-            if(board[row][j]=='Q') {
-                return false;
-            }
-        }
-        //vertical
-        for(int i=0;i<n;i++){
-            if(board[i][col]=='Q'){
-                return false;
-            }
-        }
-        //left diagonally
-        for(int i=row,j=col;i>=0&&j>=0;i--,j--){
-            if(board[i][j]=='Q') {
-                return false;
-            }
-        }
-        //right diagonally
-        for(int i=row,j=col;i>=0&&j<n;i--,j++){
-            if(board[i][j]=='Q') {
-                return false;
-            }
-        }
-        return true;
-    }
-    void nQueens(vector<string>&board,int row,int n,vector<vector<string>>&ans){
-        if(row==n){
-            ans.push_back({board});
+    vector<vector<string>> ans;
+    vector<string> board;
+    int n;
+
+    void solve(int row, int cols, int d1, int d2) {
+        if (row == n) {
+            ans.push_back(board);
             return;
         }
-        for(int j=0;j<n;j++){
-            if(isSafe(board,row,j,n)) {
-                board[row][j]='Q';
-                nQueens(board,row+1,n,ans);
-                board[row][j]='.';
-            }
-            
+
+        int available = ((1 << n) - 1) & ~(cols | d1 | d2);
+
+        while (available) {
+            int pos = available & -available; 
+            available -= pos;
+
+            int col = __builtin_ctz(pos); 
+
+            board[row][col] = 'Q';
+
+            solve(row + 1,
+                  cols | pos,
+                  (d1 | pos) << 1,
+                  (d2 | pos) >> 1);
+
+            board[row][col] = '.';
         }
     }
 
     vector<vector<string>> solveNQueens(int n) {
-        vector<string>board(n,string(n,'.'));
-        vector<vector<string>>ans;
-        nQueens(board,0,n,ans);
+        this->n = n;
+        board = vector<string>(n, string(n, '.'));
+        solve(0, 0, 0, 0);
         return ans;
     }
 };
