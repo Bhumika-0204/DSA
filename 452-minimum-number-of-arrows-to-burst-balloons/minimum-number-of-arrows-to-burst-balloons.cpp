@@ -1,21 +1,21 @@
-#include<print>
 class Solution {
 public:
+    static bool cmp(vector<int>&a,vector<int>&b){
+        return a[1]<b[1];
+    }
     int findMinArrowShots(vector<vector<int>>& points) {
-        int n = points.size();
-        sort(points.begin(),points.end());
-        int cnt=1;
-        for(auto it:points){
-            cout<<it[0]<<it[1]<<" ";
-        }
-        int m=points[0][1];
-        for(int i=1;i<n;i++){
-            if(points[i][0]>m){
-                cnt++;
-                m=points[i][1];
+        if(points.size()==0) return 0;
+
+        sort(points.begin(),points.end(),cmp);
+
+        int arrows=1;
+        int lastend=points[0][1];
+        for(int i=1;i<points.size();i++){
+            if(points[i][0]>lastend){
+                arrows++;
+                lastend=points[i][1];
             }
-            m=min(points[i][1],m);
         }
-        return cnt;
+        return arrows;
     }
 };
