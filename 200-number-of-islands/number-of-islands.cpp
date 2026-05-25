@@ -1,28 +1,67 @@
 class Solution {
 public:
-    int n,m;
-    void dfs(int i,int j,vector<vector<char>>&grid){
-        m=grid.size();
-        n=grid[0].size();
-        if(i<0 || j<0 || i>=m ||j>=n || grid[i][j]=='0') return;
-        grid[i][j]='0';
-        dfs(i+1,j,grid);
-        dfs(i,j+1,grid);
-        dfs(i-1,j,grid);
-        dfs(i,j-1,grid);
-    }
     int numIslands(vector<vector<char>>& grid) {
-        int m=grid.size();
-        int n=grid[0].size();
-        int ans=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1'){
-                    dfs(i,j,grid);
-                    ans++;
+
+        int rows = grid.size();
+        int cols = grid[0].size();
+
+        int cc = 0;
+
+        for(int r = 0; r < rows; r++) {
+            for(int c = 0; c < cols; c++) {
+
+                if(grid[r][c] == '0')
+                    continue;
+
+                cc++;                     //  new island mil gya
+                grid[r][c] = '0';
+
+                queue<pair<int,int>> q;
+                q.push({r,c});
+
+                while(!q.empty()) {
+
+                    auto curr = q.front();
+                    q.pop();
+
+                    int currRow = curr.first;
+                    int currCol = curr.second;
+
+                    // up
+                    if(currRow-1 >= 0 &&
+                       grid[currRow-1][currCol]=='1') {
+
+                        q.push({currRow-1,currCol});
+                        grid[currRow-1][currCol]='0';
+                    }
+
+                    // down
+                    if(currRow+1 < rows &&
+                       grid[currRow+1][currCol]=='1') {
+
+                        q.push({currRow+1,currCol});
+                        grid[currRow+1][currCol]='0';
+                    }
+
+                    // left
+                    if(currCol-1 >= 0 &&
+                       grid[currRow][currCol-1]=='1') {
+
+                        q.push({currRow,currCol-1});
+                        grid[currRow][currCol-1]='0';
+                    }
+
+                    // right
+                    if(currCol+1 < cols &&
+                       grid[currRow][currCol+1]=='1') {
+
+                        q.push({currRow,currCol+1});
+                        grid[currRow][currCol+1]='0';
+                    }
                 }
             }
         }
-        return ans;
+
+        return cc;
     }
 };
