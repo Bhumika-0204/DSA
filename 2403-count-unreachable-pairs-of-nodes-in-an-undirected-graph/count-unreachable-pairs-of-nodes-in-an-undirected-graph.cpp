@@ -1,28 +1,22 @@
 class Solution {
 public:
 
-    long long dfs(int node,
-                  vector<vector<int>>& adj,
-                  vector<bool>& vis) {
+    void dfs(vector<int> adj[], int src,
+             vector<bool>& vis, int& counter) {
 
-        vis[node] = true;
+        vis[src] = true;
+        counter++;
 
-        long long cnt = 1;
-
-        for(auto neighbour : adj[node]) {
-
+        for(auto neighbour : adj[src]) {
             if(!vis[neighbour]) {
-                cnt += dfs(neighbour, adj, vis);
+                dfs(adj, neighbour, vis, counter);
             }
         }
-
-        return cnt;
     }
 
-    long long countPairs(int n,
-                         vector<vector<int>>& edges) {
+    long long countPairs(int n, vector<vector<int>>& edges) {
 
-        vector<vector<int>> adj(n);
+        vector<int> adj[n];
 
         for(auto &e : edges) {
             adj[e[0]].push_back(e[1]);
@@ -30,23 +24,24 @@ public:
         }
 
         vector<bool> vis(n, false);
-
-        long long ans = 0;
-        long long remaining = n;
+        vector<int> compSizes;
 
         for(int i = 0; i < n; i++) {
-
             if(!vis[i]) {
-
-                long long size =
-                    dfs(i, adj, vis);
-
-                ans += size * (remaining - size);
-
-                remaining -= size;
+                int cnt = 0;
+                dfs(adj, i, vis, cnt);
+                compSizes.push_back(cnt);
             }
         }
 
-        return ans;
+        long long res = 0;
+        long long total = 0;
+
+        for(int sz : compSizes) {
+            res += 1LL * sz * (n - total - sz);
+            total += sz;
+        }
+
+        return res;
     }
 };
