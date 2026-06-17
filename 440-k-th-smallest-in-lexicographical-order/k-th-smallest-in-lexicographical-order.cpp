@@ -17,11 +17,11 @@ public:
         k--;  
 
         while (k > 0) {
-            long long steps = f(n, curr, curr + 1);
+            long long y = f(n, curr, curr + 1);
 
-            if (steps <= k) {
+            if (y <= k) {
                 curr++;
-                k -= steps;
+                k -= y;
             } else {
                 curr *= 10;
                 k--;
