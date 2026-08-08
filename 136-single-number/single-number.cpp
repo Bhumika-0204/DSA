@@ -1,15 +1,15 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        for(int i=0;i<nums.size();i++){
-            int num=nums[i];
-            int count=0;
-            for(int j=0;j<nums.size();j++){
-                if(nums[j]==num){
-                    count++;
-                }
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            int cnt=0;
+            int x=nums[i];
+            for(int j=0;j<n;j++){
+                if(x==nums[j]) cnt++;
             }
-            if(count==1) return num;
+            if(cnt==1) return x;
+
         }
         return -1;
     }
