@@ -1,19 +1,34 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
     int minimumDeletions(vector<int>& nums) {
         int n = nums.size();
-        int minIdx = min_element(nums.begin(), nums.end()) - nums.begin();
-        int maxIdx = max_element(nums.begin(), nums.end()) - nums.begin();
+        int left = 0;
+        int right = 0;
         
-        if (minIdx > maxIdx) swap(minIdx, maxIdx);
-
-        int option1 = maxIdx + 1;                  
-        int option2 = n - minIdx;
-        int option3 = (minIdx + 1) + (n - maxIdx); 
-
-        return min({option1, option2, option3});
+        for (int i = 1; i < n; i++) {
+            if (nums[i] < nums[left])
+                left = i;
+                
+            if (nums[i] > nums[right])
+                right = i;
+        }
+        
+        if (left < right)
+            swap(left, right);
+            
+        int ans = n;
+        
+        for (int i = 0; i <= n; i++) {
+            int extra = 0;
+            
+            if (right >= i)
+                extra = n - right;
+            else if (left >= i)
+                extra = n - left;
+                
+            ans = min(ans, i + extra);
+        }
+        
+        return ans;
     }
 };
