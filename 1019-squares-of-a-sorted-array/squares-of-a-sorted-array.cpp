@@ -1,70 +1,72 @@
 class Solution {
 public:
-    vector<int> sortedSquares(vector<int>& nums) {
-        vector<int>pos;
-        vector<int>neg;
-        
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]>=0) pos.push_back(nums[i]);
-            else neg.push_back(nums[i]);
-            
-        }
-        int m=neg.size();
-        int n=pos.size();
-        vector<int>res(m+n);
-        if(m==0){
-            for(int i=0;i<nums.size();i++){
-                nums[i]*=nums[i];
-                
-            }
-            return nums;
-        }
-        else if(n==0){
-            for(int i=0;i<nums.size();i++){
-                nums[i]*=nums[i];
+    vector<int> sortedSquares(vector<int>& a) {
+        int siz=a.size();
+        vector<int> neg;
+        vector<int> pos;
+        // int i;
+        for(int i=0;i<siz;i++)
+        {
+            if(a[i]<0)
+            neg.push_back(a[i]);
+            else
+            pos.push_back(a[i]);
 
-            }
-            reverse(nums.begin(),nums.end());
-            return nums;
         }
-        else{
-            for(int i=0;i<m;i++){
-                neg[i]*=neg[i];
-                
-                
-            }
+        if(neg.size()==0) // no negative element
+        {
+            for(int i=0;i<pos.size();i++)
+            pos[i]=pos[i]*pos[i];
+            return pos;
+        }
+        if(pos.size()==0) // no positibve
+        {
+            for(int i=0;i<neg.size();i++)
+            neg[i]=neg[i]*neg[i];
             reverse(neg.begin(),neg.end());
-            for(int i=0;i<n;i++){
-                pos[i]*=pos[i];
-
-            }
-            int id=0,i=0,j=0;
-            while(i<m && j<n){
-                if(pos[j]>neg[i]){
-                    res[id]=neg[i];
-                    i++;
-                    id++;
-                }
-                else{
-                    res[id]=pos[j];
-                    j++;
-                    id++;
-
-                }
-                
-            }
-            while(i<m){
-                    res[id]=neg[i];
-                    i++;
-                    id++;
-                }
-                while(j<n){
-                    res[id]=pos[j];
-                    j++;
-                    id++;
-                }
-                return res;
+            return neg;
         }
+       
+        int i=0,j=0;
+        int id=0;
+        int n=neg.size();
+        int m=pos.size();
+        vector<int> res(n+m);
+        for(int i=0;i<n;i++)
+        neg[i]=neg[i]*neg[i];
+
+        reverse(neg.begin(),neg.end());
+        for(int i=0;i<m;i++)
+        pos[i]=pos[i]*pos[i];
+        while(i<n and j<m)
+        {
+            if(neg[i]<=pos[j])
+            {
+                res[id]=neg[i];
+                id++;
+                i++;
+            }
+            else
+            {
+                res[id]=pos[j];
+                id++;
+                j++;
+            }
+        } // whilwe loop khatam
+        while(i<n)
+        {
+            res[id]=neg[i];
+                id++;
+                i++;
+        }
+        while(j<m)
+        {
+            res[id]=pos[j];
+                id++;
+                j++;
+        }
+
+
         return res;
     }
 };
