@@ -7,9 +7,10 @@ public:
             int comp=target-nums[i];
             if(mp.find(comp)!=mp.end()){
                 return {mp[comp],i};
+
             }
             mp[nums[i]]=i;
         }
-        return {-1,-1};
+        return {};
     }
 };
