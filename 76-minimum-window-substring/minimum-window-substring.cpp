@@ -1,51 +1,47 @@
 class Solution {
 public:
-    string minWindow(string s, string t) {
-
-        if(t.length() > s.length()) return "";
-
-        unordered_map<char, int> mp;
-
-        for(char c : t){
-            mp[c]++;
-        }
-
-        int l = 0, r = 0;
-        int start = 0;
-        int minLen = INT_MAX;
-
-        int temp = t.length();
-
-        while(r < s.length()){
-
-            char ch = s[r];
-
-            if(mp.find(ch) != mp.end() && mp[ch] > 0){
-                temp--;
-            }
-
-            mp[ch]--;
-            r++;
-
-            while(temp == 0){
-
-                if(r - l < minLen){
-                    start = l;
-                    minLen = r - l;
-                }
-
-                char c = s[l];
-
-                mp[c]++;
-
-                if(mp[c] > 0){
-                    temp++;
-                }
-
-                l++;
-            }
-        }
-
-        return minLen == INT_MAX ? "" : s.substr(start, minLen);
+    bool fun(vector<int> &have, vector<int> &need)
+{
+    for(int i=0;i<256;i++)
+    {
+        if(have[i]<need[i])
+        return false;
     }
+    return true;
+}
+    string minWindow(string s, string t) {
+        int n=s.size();
+        int m=t.size();
+        vector<int> have(256,0);
+        vector<int> need(256,0);
+        int i;
+        if(n<m)
+        return "";
+        for(i=0;i<m;i++)
+        need[t[i]]++;
+
+        int low=0,high=0;
+        int res=INT_MAX;
+        int start=-1;
+        for(high=0;high<n;high++)
+        {
+            have[s[high]]++;
+
+            while(fun(have,need)) // jab tk sahi hai
+            {
+                int len=high-low+1;
+                if(res>len)
+                {
+                    res=len;
+                    start=low;
+                }
+                have[s[low]]--;
+                low++;
+            }
+        }
+        if(res==INT_MAX)
+        return "";
+        return s.substr(start,res);
+    }
+
 };
