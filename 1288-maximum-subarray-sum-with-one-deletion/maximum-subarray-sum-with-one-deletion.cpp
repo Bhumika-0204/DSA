@@ -1,23 +1,19 @@
-
 class Solution {
 public:
     int maximumSum(vector<int>& arr) {
-        int n = arr.size();
-        int noDel = arr[0];
-        int oneDel = INT_MIN;
-        int res = arr[0];
+        int n=arr.size();
+        int nodel=arr[0];
+        int onedel=INT_MIN;
+        int res=arr[0];
 
-        for (int i = 1; i < n; i++) {
-            int prevNoDel = noDel;
+        for(int i=1;i<n;i++){
+            int prevnodel=nodel;
 
-            noDel = max(arr[i], noDel + arr[i]);
+            nodel=max(nodel+arr[i],arr[i]);
 
-            oneDel = max(prevNoDel,
-                         oneDel == INT_MIN ? INT_MIN : oneDel + arr[i]);
-
-            res = max(res, max(noDel, oneDel));
+            onedel=max(prevnodel , onedel==INT_MIN?INT_MIN:onedel+arr[i]);
+            res=max(res,max(onedel,nodel));
         }
-
         return res;
     }
 };
