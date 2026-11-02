@@ -7,11 +7,10 @@ public:
         int res=arr[0];
 
         for(int i=1;i<n;i++){
-            int prevnodel=nodel;
+            int x=nodel;
+            nodel=max(arr[i],nodel+arr[i]);
 
-            nodel=max(nodel+arr[i],arr[i]);
-
-            onedel=max(prevnodel , onedel==INT_MIN?INT_MIN:onedel+arr[i]);
+            onedel=max(x,onedel==INT_MIN?INT_MIN:onedel+arr[i]);
             res=max(res,max(onedel,nodel));
         }
         return res;
